@@ -154,7 +154,7 @@ namespace CyLR
                     {
                         Func<String, bool> isProfilePath = (item=>item.Contains("{user.ProfilePath}"));
                         var userPaths = CollectionFilePaths.Where(isProfilePath).ToList();
-                        if(true){
+                        if(userPaths.Count!=0){
                             var users = FindUsers();
                             foreach (var user in users)
                             {
