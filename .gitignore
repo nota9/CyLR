@@ -13,3 +13,4 @@ CyLRTests/bin/
 *.zip
 deployments/
 warp-packer
+.vscode/
