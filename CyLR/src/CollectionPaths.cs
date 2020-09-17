@@ -149,7 +149,31 @@ namespace CyLR
             {
                 if (File.Exists(arguments.CollectionFilePath))
                 {
-                    paths.AddRange(File.ReadAllLines(arguments.CollectionFilePath).Select(Environment.ExpandEnvironmentVariables));
+                    var CollectionFilePaths = new List<string>(File.ReadAllLines(arguments.CollectionFilePath));
+                    if(!Platform.IsUnixLike())
+                    {
+                        Func<String, bool> isProfilePath = (item=>item.Contains("{user.ProfilePath}"));
+                        var userPaths = CollectionFilePaths.Where(isProfilePath).ToList();
+                        if(true){
+                            var users = FindUsers();
+                            foreach (var user in users)
+                            {
+                                if(user.FullProfile!=0)
+                                {
+                                    foreach( var path in userPaths)
+                                    {
+                                        paths.Add(path.Replace("{user.ProfilePath}", user.ProfilePath));
+                                    }
+                                }
+                            }
+                            CollectionFilePaths.RemoveAll(new Predicate<String>(isProfilePath));
+                            paths.AddRange(CollectionFilePaths.Select(Environment.ExpandEnvironmentVariables));
+                        }
+                        isProfilePath = null; userPaths = null;
+                    } else
+                    {
+                        paths.AddRange(File.ReadAllLines(arguments.CollectionFilePath).Select(Environment.ExpandEnvironmentVariables));
+                    }
                 }
                 else
                 {

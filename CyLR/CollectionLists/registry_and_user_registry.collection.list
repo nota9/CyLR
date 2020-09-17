@@ -1,0 +1,4 @@
+%SYSTEMROOT%\System32\config\SYSTEM
+%SYSTEMROOT%\System32\config\SOFTWARE
+%SYSTEMROOT%\System32\config\SECURITY
+{user.ProfilePath}\NTUSER.DAT
